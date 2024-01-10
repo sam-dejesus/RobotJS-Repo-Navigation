@@ -41,4 +41,32 @@ function start(){
 }
 start();
 
+function textFile() {
+    inquirer.prompt({
+        type:"input",
+        name:"fileName",
+        message:"what would you like the file to be called?",
+    })
+    .then((answers)=>{
+        robot.typeStringDelayed("cd ..",100)
+        robot.keyTap("enter");
+        robot.typeStringDelayed(`touch ${answers.fileName}.txt`);
+        robot.keyTap("enter");
 
+    })
+}
+
+function folder(){
+    inquirer.prompt({
+        type:"input",
+        name:"folderName",
+        message:"what would you like the folder to be called?",
+    })
+    .then((answers)=>{
+        robot.typeStringDelayed("cd ..",100)
+        robot.keyTap("enter");
+        robot.typeStringDelayed(`mkdir ${answers.folderName}`);
+        robot.keyTap("enter");
+
+    })
+}
