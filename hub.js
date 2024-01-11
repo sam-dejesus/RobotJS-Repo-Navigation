@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 var robot = require("robotjs");
 
+
 let projectArray = ["project-A", "project-B", ]
 function projectMenu(answers){
     
@@ -13,6 +14,8 @@ function projectMenu(answers){
                 robot.typeStringDelayed("code .",100000)
                 robot.keyTap("enter");
                 break;
+            }else{
+                start();
             }
         }
     
@@ -93,7 +96,7 @@ function projectMenuStart(){
         type: "list",
         name: "projectAction",
         message: "which project do you want to navigate to?",
-        choices: projectArray,
+        choices: [...projectArray, "Back"]
     
     })
       .then(
@@ -101,4 +104,27 @@ function projectMenuStart(){
             projectMenu(answers)
         }
         )
+}
+
+function addProject(){
+    inquirer.prompt({
+        type:"input",
+        name:"newProjectName",
+        message:"what will the name of the new project be?"
+    })
+    .then(
+        (answers)=>{
+            robot.moveMouseSmooth(1000, 100);
+            robot.mouseClick();
+            robot.scrollMouse(0, 100000000000000);
+            robot.moveMouseSmooth(428, 175);
+            robot.mouseClick();
+            robot.typeStringDelayed(`"${answers.newProjectName}",`)
+            robot.keyTap("s", ["command"]);
+        }
+    )
+
+
+
+
 }
