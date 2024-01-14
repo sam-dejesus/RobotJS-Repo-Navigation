@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 var robot = require("robotjs");
 const fs = require('fs');
-let projectArray = ["kaemy","project-A","project-B","sammy"];
+let projectArray = ["project-A","project-B"];
 const filePath = 'hub.js';
 const startMarker = 'let projectArray = ';
 const endMarker = ';';
