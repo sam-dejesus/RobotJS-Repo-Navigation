@@ -1,25 +1,23 @@
 const inquirer = require("inquirer");
 var robot = require("robotjs");
+const fs = require('fs');
+let projectArray = ["kaemy","project-A","project-B","sammy"];
+const filePath = 'hub.js';
+const startMarker = 'let projectArray = ';
+const endMarker = ';';
 
 
-let projectArray = ["project-A", "project-B", ]
+
 function projectMenu(answers){
-    
-        for (let i = 0; i < projectArray.length; i++) {
-            if (answers.projectAction === projectArray[i]) {
                 robot.typeStringDelayed("cd ..",100000)
                 robot.keyTap("enter");
-                robot.typeStringDelayed(`cd ${answers.projectAction}`,100000);
+                robot.typeStringDelayed(`cd ${answers}`,100000);
                 robot.keyTap("enter");
                 robot.typeStringDelayed("code .",100000)
                 robot.keyTap("enter");
-                break;
-            }else{
-                start();
-            }
         }
     
-}
+
 
 function start(){
     inquirer.prompt({
@@ -101,7 +99,7 @@ function projectMenuStart(){
     })
       .then(
         (answers)=>{
-            projectMenu(answers)
+            projectMenu(answers.projectAction)
         }
         )
 }
@@ -114,17 +112,57 @@ function addProject(){
     })
     .then(
         (answers)=>{
-            robot.moveMouseSmooth(1000, 100);
-            robot.mouseClick();
-            robot.scrollMouse(0, 100000000000000);
-            robot.moveMouseSmooth(428, 175);
-            robot.mouseClick();
-            robot.typeStringDelayed(`"${answers.newProjectName}",`)
-            robot.keyTap("s", ["command"]);
+
+
+            if (projectArray.includes(answers.newProjectName)) {
+                 console.log("project with that name already exist. Please use a different name")
+            }else{
+             projectArray.push(answers.newProjectName);
+             updateFile(filePath, projectArray, startMarker, endMarker);
+              }
+
         }
     )
 
-
-
-
 }
+
+function deleteProject(){
+    inquirer.prompt({
+        type:"input",
+        name:"deletedProjectName",
+        message:"what will the name of the deleted project be?"
+    })
+    .then(
+        (answers)=>{
+            if (projectArray.includes(answers.deletedProjectName)) {
+                projectArray = projectArray.filter(project => project !== answers.deletedProjectName);
+            
+                updateFile(filePath, projectArray, startMarker, endMarker);
+            }else{
+                console.log("project not found")
+            }
+
+        }
+    )
+}
+
+function updateFile(filePath, projectArray, startMarker, endMarker) {
+    let fileContent = fs.readFileSync(filePath, 'utf8');
+    const startPosition = fileContent.indexOf(startMarker);
+    const endPosition = fileContent.indexOf(endMarker, startPosition);
+  
+    if (startPosition !== -1 && endPosition !== -1) {
+   
+      let updatedContent =
+        fileContent.substring(0, startPosition + startMarker.length) +
+        JSON.stringify(projectArray) +
+        fileContent.substring(endPosition);
+  
+     
+      fs.writeFileSync(filePath, updatedContent);
+  
+      console.log('Projects array updated successfully');
+    } else {
+      console.log('Project array did not update!');
+    }
+  }
