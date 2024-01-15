@@ -2,12 +2,15 @@ const inquirer = require("inquirer");
 const cfonts = require('cfonts');
 
 let projectArray = ["project-A","project-B"];
+let name = "User";
 const {Create, Project} = require('./lib/classes');
 const execute = new Create();
-const project = new Project()
-const myFont = cfonts.say('Hello User!', {
-    font: 'chrome', 
-    gradient: ['red','blue'], 
+const project = new Project();
+const {System} = require('./lib/options')
+const system = new System();
+let test = ['red','blue']
+const myFont = cfonts.say('Hello ' + name, {
+    gradient: test , 
 
   });
   
@@ -24,6 +27,7 @@ function start(){
             "Delete a project",
             "Create a text file",
             "Create a folder",
+            "Options",
             "Exit",
         ],
     
@@ -45,6 +49,9 @@ function start(){
             case "Create a folder":
                 execute.createFolder();
                 break;
+            case "Options":
+            options();
+            break;
             case "Exit":
                 console.log("Goodbye!");
                 break;
@@ -54,3 +61,27 @@ function start(){
 start()
 
 
+function options(){
+    inquirer.prompt({
+        type: "list",
+        name: "option",
+        message: "welcome to the options menu",
+        choices: [
+            "change the welcome name",
+            "change the theme color",
+            "back",
+        ],
+    })
+    .then((answers) => {
+        switch (answers.option){
+            case "change the welcome name":
+                system.updateName();
+                break;
+            case "back":
+                start();
+                break;
+        }
+    })
+}
+
+module.exports = {start}
