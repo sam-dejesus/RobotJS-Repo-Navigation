@@ -1,10 +1,17 @@
 const inquirer = require("inquirer");
+const cfonts = require('cfonts');
 
 let projectArray = ["project-A","project-B"];
 const {Create, Project} = require('./lib/classes');
 const execute = new Create();
 const project = new Project()
+const myFont = cfonts.say('Hello User!', {
+    font: 'chrome', 
+    gradient: ['red','blue'], 
 
+  });
+  
+  console.log(myFont); 
 
 function start(){
     inquirer.prompt({

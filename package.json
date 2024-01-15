@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sam-dejesus/RobotJS-Repo-Navigation#readme",
   "dependencies": {
+    "cfonts": "^3.2.0",
     "inquirer": "^8.2.4",
     "robotjs": "^0.6.0"
   }
