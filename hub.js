@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const cfonts = require('cfonts');
 
-let projectArray = ["project-A","project-B"];
+let projectArray = ["project-A","project-B","Password-Manager-CLI"];
 let name = "User";
 const {Create, Project} = require('./lib/classes');
 const execute = new Create();
